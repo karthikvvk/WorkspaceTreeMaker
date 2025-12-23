@@ -1,4 +1,4 @@
-# TreeMaker - Python Project Function Call Tree Analyzer
+# TreeMaker - Workspace Tree Analyzer
 
 A CLI tool that analyzes Python projects and generates a hierarchical tree of function calls.
 
@@ -13,23 +13,25 @@ A CLI tool that analyzes Python projects and generates a hierarchical tree of fu
 ## Requirements
 
 - Python 3.7+
-- A `.gitignore` file must exist in the target project root (mandatory)
+- A `.gitignore` file must exist in the target project root (mandatory)[**can be left empty**]
+
+## ⚠️ CAUTION
+- ```.gitignore``` is **recommended** especially if the workspace have ```./build or android or node_modules``` or similar folders which will be Larger in depth.
 
 ## Installation
 
-No installation required! Just copy `treemaker.py` to your desired location.
+```bash
+git clone https://github.com/karthikvvk/WorspaceTreeMaker.git
+cp treemaker.py <ur_workspace_path> #Copy treemaker.py to the root of ur workspace
+python treemaker.py
+```
 
 ## Usage
 
 ```bash
-python treemaker.py <project_path>
+python treemaker.py #this takes "./"as Base dir
 ```
 
-### Example
-
-```bash
-python treemaker.py /path/to/your/python/project
-```
 
 ## Output Format
 
@@ -110,7 +112,3 @@ UNUSED FUNCTIONS
 - Dynamic function calls (via `getattr`, etc.) may not be detected
 - External library calls are not tracked
 - Decorator-based calls may not be fully resolved
-
-## License
-
-MIT License
