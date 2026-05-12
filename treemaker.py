@@ -220,11 +220,12 @@ class FunctionVisitor(ast.NodeVisitor):
 class ProjectAnalyzer:
     """Analyzes a Python project and builds function call graphs."""
     
-    def __init__(self, project_path: str):
+    def __init__(self, project_path: str, extensions: tuple):
         self.project_path = os.path.abspath(project_path)
         self.gitignore = GitIgnoreParser(os.path.join(self.project_path, '.gitignore'))
         self.functions: Dict[str, FunctionInfo] = {}
         self.files_analyzed: List[str] = []
+        self.extensions = extensions
     
     def analyze(self):
         """Analyze all Python files in the project."""
@@ -233,7 +234,7 @@ class ProjectAnalyzer:
             dirs[:] = [d for d in dirs if not self.gitignore.is_ignored(os.path.join(root, d))]
             
             for file in files:
-                if file.endswith('.py'):
+                if file.endswith(self.extensions):
                     file_path = os.path.join(root, file)
                     if not self.gitignore.is_ignored(file_path):
                         self._analyze_file(file_path)
@@ -501,9 +502,10 @@ def main():
         print(f"Error: .gitignore file is required but not found at: {gitignore_path}")
         print("\nPlease create a .gitignore file in the project root.")
         sys.exit(1)
-    
+    extensions = ["py", ]#"cpp", "java", "dart", "jsx", "js", "html"] #anything
+    extensions = tuple(extensions)
     try:
-        analyzer = ProjectAnalyzer(project_path)
+        analyzer = ProjectAnalyzer(project_path, extensions)
         analyzer.analyze()
         
         printer = TreePrinter(analyzer)
