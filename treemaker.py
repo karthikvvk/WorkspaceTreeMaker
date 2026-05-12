@@ -234,7 +234,7 @@ class ProjectAnalyzer:
             dirs[:] = [d for d in dirs if not self.gitignore.is_ignored(os.path.join(root, d))]
             
             for file in files:
-                if file.endswith(self.extensions):
+                if file.endswith("." + self.extensions):
                     file_path = os.path.join(root, file)
                     if not self.gitignore.is_ignored(file_path):
                         self._analyze_file(file_path)
